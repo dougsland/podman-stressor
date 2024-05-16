@@ -49,7 +49,7 @@ See the output for a PASS test (no verbose mode or list-current-state):
 [ PASS ] volume my_volume created.
 [ PASS ] network my_network created.
 [ PASS ] All containers requested are running successfully.
-[ PASS ] Total number of containers created in parallel: 2
+[ PASS ] Total number of containers created in parallel: 100
 [ PASS ] Time taken: 1 seconds.
 
 [ PASS ] All tests passed.
@@ -61,6 +61,7 @@ $podman-stressor$ podman ps
 CONTAINER ID  IMAGE                            COMMAND     CREATED        STATUS        PORTS       NAMES
 e7c04505c83d  docker.io/library/alpine:latest  sleep 3600  2 seconds ago  Up 2 seconds              test_container_1
 abb513b64cd5  docker.io/library/alpine:latest  sleep 3600  2 seconds ago  Up 2 seconds              test_container_2
+....
 ```
 
 Checking volume and network created:
@@ -77,7 +78,7 @@ Output for a FAIL test:
 ./podman-stressor \
   --network "my_network" \
   --volume "my_volume" \
-  --number-of-containers 2 \
+  --number-of-containers 100 \
   --image-name "alpine" \
   --image-command "sleep 3600"
 Error: volume with name my_volume already exists: volume already exists
@@ -90,7 +91,7 @@ Let's get an output from a more verbose mode (--verbose plus --list-current-stat
 $ ./podman-stressor \
     --network "my_network" \
     --volume "my_volume" \
-    --number-of-containers 2 \
+    --number-of-containers 100 \
     --image-name "alpine" \
     --image-command "sleep 3600" \
     --list-current-state \
@@ -103,7 +104,7 @@ $ ./podman-stressor \
 [ INFO ] =======================================================
 [ INFO ] --network is my_network
 [ INFO ] --volume is my_volume
-[ INFO ] --number-of-containers is 2
+[ INFO ] --number-of-containers is 100
 [ INFO ] --image-name is alpine
 [ INFO ] --image-command is sleep 3600
 [ INFO ] --list-current-state is set
@@ -149,6 +150,7 @@ $ ./podman-stressor \
 [ INFO ] CONTAINER ID  IMAGE                            COMMAND     CREATED                 STATUS                 PORTS       NAMES
 [ INFO ] 1012e9a1e865  docker.io/library/alpine:latest  sleep 3600  Less than a second ago  Up Less than a second              test_container_2
 [ INFO ] 1ee043d0a2ed  docker.io/library/alpine:latest  sleep 3600  Less than a second ago  Up Less than a second              test_container_1
+....
 [ INFO ] ===============================================
 
 [ INFO ] ===============================================
