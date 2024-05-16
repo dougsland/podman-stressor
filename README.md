@@ -11,7 +11,7 @@ Let's start with an example below:
   --volume "my_volume" \
   --number-of-containers 20 \
   --image-name "alpine" \
-  --image-command "sleep 3600" \
+  --image-command "sleep 3600"
 ```
 
 ```
