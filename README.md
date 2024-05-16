@@ -1,5 +1,5 @@
 # podman-stressor
-Just a modular collection of podman calls to simulate "a BAD day for podman" ;-)
+Just a modular collection of podman calls to simulate **"a BAD day for podman"** ;-)
 
 Let's start with an example below:  
 
