@@ -3,7 +3,7 @@ Just a modular collection of podman calls to simulate "a BAD day for podman" ;-)
 
 Let's start with an example below:  
 
-*"Create a Podman network named my_network, a volume named my_volume, and 20 containers using the alpine image with the command sleep 3600. Once created, remove everything, as this setup is just for testing the environment!"*
+*"Create a Podman network named my_network, a volume named my_volume, and 20 containers using the alpine image with the image command sleep 3600. Once created, remove everything, as this setup is just for testing the environment!"*
 
 ```
 ./podman-stressor \
@@ -28,7 +28,7 @@ Options:
 
 **Second Example**:
 
-*"Create a Podman network named my_network, a volume named my_volume, and 100 containers using the alpine image with the command sleep 3600. List current network, storage and verbose mode. Once created, remove everything, as this setup is just for testing the environment!"*
+*"Create a Podman network named my_network, a volume named my_volume, and 100 containers using the alpine image with the image command sleep 3600. List current network, storage and verbose mode. Once created, remove everything, as this setup is just for testing the environment!"*
 
 ```
 ./podman-stressor \
