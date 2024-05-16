@@ -1,0 +1,4 @@
+#!/bin/bash -ex
+
+podman volume rm my_volume --force
+podman network rm my_network --force

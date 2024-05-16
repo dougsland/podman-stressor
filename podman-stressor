@@ -1,0 +1,197 @@
+#!/bin/bash -e
+# shellcheck disable=SC1091
+#!/bin/bash
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+source ./constants
+
+# Initialize flags
+verbose=0
+cleanup=0
+network=""
+volume=""
+list_current_state=0
+number_of_containers=""
+image_name=""
+image_command=""
+
+list_current_state() {
+    if [ $list_current_state -eq 1 ]; then
+        ./podman-operations --list-procs
+        ./podman-operations --list-vols
+        ./podman-operations --list-nets
+    fi
+}
+
+# Display help message
+usage() {
+  echo "Usage: $0 --network <network> --volume <volume> --number-of-containers <num_containers> --image-name <image_name> --image-command <image_command> [options]"
+  echo
+  echo "Options:"
+  echo "  --verbose, -v, --v                 Enable verbose mode"
+  echo "  --network <network>                Specify the network"
+  echo "  --volume <volume>                  Specify the volume"
+  echo "  --number-of-containers <num>       Specify the number of containers"
+  echo "  --image-name <image_name>          Specify the image name"
+  echo "  --image-command <image_command>    Specify the image command"
+  echo "  --cleanup                          Enable cleanup mode"
+  echo "  --list-current-state               Enable list current state mode"
+  echo
+  echo "Example:"
+  echo "$0 \\"
+  echo "  --network \"my_network\" \\"
+  echo "  --volume \"my_volume\" \\"
+  echo "  --number-of-containers 15 \\"
+  echo "  --image-name \"alpine\" \\"
+  echo "  --image-command \"sleep 3600\" \\"
+  echo "  --cleanup \\"
+  echo "  --verbose \\"
+  echo "  --list-current-state"
+  exit 1
+}
+
+# Loop through all the arguments
+while [[ "$#" -gt 0 ]]; do
+  case $1 in
+    --verbose|-v|--v)
+      verbose=1
+      ;;
+    --cleanup)
+      cleanup=1
+      ;;
+    --network)
+      network="$2"
+      shift
+      ;;
+    --volume)
+      volume="$2"
+      shift
+      ;;
+    --list-current-state)
+      list_current_state=1
+      ;;
+    --number-of-containers)
+      number_of_containers="$2"
+      shift
+      ;;
+    --image-name)
+      image_name="$2"
+      shift
+      ;;
+    --image-command)
+      image_command="$2"
+      shift
+      ;;
+    *)
+      echo "Unknown parameter: $1"
+      usage
+      ;;
+  esac
+  shift
+done
+
+# Check if required parameters are provided
+if [[ -z "$network" || 
+      -z "$volume" || 
+      -z "$number_of_containers" || 
+      -z "$image_name" || 
+      -z "$image_command" ]]; then
+  # Error handling code
+  echo "Error: Missing required parameters"
+  usage
+fi
+
+# Debugging output
+if [[ "$verbose" -eq 1 ]]; then
+    echo
+    echo -e "[ ${BLUE}INFO${NC} ] ======================================================="
+    echo -e "[ ${BLUE}INFO${NC} ] ${GREEN}VERBOSE MODE IS ON${NC}"
+    echo -e "[ ${BLUE}INFO${NC} ] ======================================================="
+    echo -e "[ ${BLUE}INFO${NC} ] --network is $network"
+    echo -e "[ ${BLUE}INFO${NC} ] --volume is $volume"
+    echo -e "[ ${BLUE}INFO${NC} ] --number-of-containers is $number_of_containers"
+    echo -e "[ ${BLUE}INFO${NC} ] --image-name is $image_name"
+    echo -e "[ ${BLUE}INFO${NC} ] --image-command is $image_command"
+
+    if [[ "$cleanup" -eq 1 ]]; then
+        echo -e "[ ${BLUE}INFO${NC} ] --cleanup is set"
+    fi
+  
+    if [[ "$list_current_state" -eq 1 ]]; then
+        echo -e "[ ${BLUE}INFO${NC} ] --list-current-state is set"
+    fi 
+    echo
+fi
+
+# List the current state of processes, volumes and networks
+if [ $list_current_state -eq 1 ]; then
+    echo -e "[ ${BLUE}INFO${NC} ] ${GREEN}Listing current podman env state NO CHANGES FROM SCRIPT${NC}"
+    list_current_state
+fi
+
+# create volume
+./podman-operations --create-vol \
+  "${volume}" \
+  "$verbose"
+
+# create network
+./podman-operations --create-net \
+  "${network}" \
+  "$verbose"
+
+# create containers
+./podman-operations --create-cont \
+  "${number_of_containers}" \
+  "${image_name}" \
+  "${image_command}" \
+  "${volume}" \
+  "${network}" \
+  "$verbose"
+
+if [ $list_current_state -eq 1 ]; then
+    echo
+    echo -e "[ ${BLUE}INFO${NC} ] ================================================================================="
+    echo -e "[ ${BLUE}INFO${NC} ] ${GREEN}Requested addon has been added to the environment${NC}"
+    echo -e "[ ${BLUE}INFO${NC} ] ================================================================================="
+    echo -e "[ ${BLUE}INFO${NC} ] - Containers - ${number_of_containers}" 
+    echo -e "[ ${BLUE}INFO${NC} ] - Network - ${network}"
+    echo -e "[ ${BLUE}INFO${NC} ] - Volume  - ${volume}"
+    echo -e "[ ${BLUE}INFO${NC} ] ================================================================================="
+    list_current_state
+    echo 
+fi
+
+
+# All Done, let's cleanup
+if [ $cleanup -eq 1 ]; then
+
+    ./podman-operations --cleanup-cont \
+	    "${number_of_containers}" \
+            "$verbose"
+
+    ./podman-operations --cleanup-net \
+	    "${network}" \
+            "$verbose"
+
+    ./podman-operations --cleanup-vol \
+	    "${volume}" \
+            "$verbose"
+fi
+
+if [ $list_current_state -eq 1 ]; then
+    list_current_state
+fi
+
+echo
+echo -e "[ ${GREEN}PASS${NC} ] All tests passed."
