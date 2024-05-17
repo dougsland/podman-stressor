@@ -57,7 +57,7 @@ See the output for a PASS test (no verbose mode or list-current-state):
 
 Checking if really worked:
 ```
-$podman-stressor$ podman ps
+$ podman ps
 CONTAINER ID  IMAGE                            COMMAND     CREATED        STATUS        PORTS       NAMES
 e7c04505c83d  docker.io/library/alpine:latest  sleep 3600  2 seconds ago  Up 2 seconds              test_container_1
 abb513b64cd5  docker.io/library/alpine:latest  sleep 3600  2 seconds ago  Up 2 seconds              test_container_2
