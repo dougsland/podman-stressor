@@ -109,8 +109,6 @@ $ ./podman-stressor \
 [ INFO ] --image-command is sleep 3600
 [ INFO ] --list-current-state is set
 
-[ INFO ] Listing current podman env state NO CHANGES FROM SCRIPT
-
 [ INFO ] ===============================================
 [ INFO ]              Listing current podman processes
 [ INFO ] ===============================================
@@ -140,9 +138,10 @@ $ ./podman-stressor \
 [ PASS ] network my_network created.
 [ INFO ] creating container test_container_1
 [ INFO ] creating container test_container_2
+...
 [ PASS ] All containers requested are running successfully.
-[ PASS ] Total number of containers created in parallel: 2
-[ PASS ] Time taken: 0 seconds.
+[ PASS ] Total number of containers created in parallel: 100
+[ PASS ] Time taken: 1 seconds.
 
 [ INFO ] ===============================================
 [ INFO ]              Listing current podman processes
