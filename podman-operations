@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 # shellcheck disable=SC1091
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +17,7 @@
 
 # Print usage information
 usage() {
-    echo "Usage: $0 [--create-vol volume_name | --create-net network_name | --create-cont num_containers image_name command volume_name network_name | --cleanup-vol volume_name | --cleanup-net network_name | --cleanup-cont num_containers | --list-procs | --list-vols | --list-nets]"
+    echo "Usage: $0 [--create-vol | --create-net | --create-cont | --cleanup-vol | --cleanup-net | --cleanup-cont | --list-procs | --list-vols | --list-nets]"
     exit 1
 }
 
@@ -31,37 +31,49 @@ while [[ "$#" -gt 0 ]]; do
     case $1 in
         --create-vol)
             shift
-            ./volume.sh create "$1" "$2"
+            ./volume create
+	    exit $?
             ;;
         --create-net)
             shift
-            ./network.sh create "$1" "$2"
+	    ./network create
+	    exit $?
             ;;
         --create-cont)
             shift
-            ./podman.sh create "$1" "$2" "$3" "$4" "$5" "$6"
-            shift 5
+            ./podman create
+	    exit $?
             ;;
         --cleanup-vol)
             shift
-            ./volume.sh remove "$1" "$2"
+            ./volume remove
+	    exit $?
             ;;
         --cleanup-net)
             shift
-            ./network.sh remove "$1" "$2"
+            ./network remove
+	    exit $?
             ;;
         --cleanup-cont)
             shift
-            ./podman.sh remove "$1" "$2"
+            ./podman remove
+	    exit $?
             ;;
         --list-procs)
-            ./processes.sh list
+            ./processes list
+	    exit $?
             ;;
         --list-vols)
-            ./volume.sh list
+            ./volume list
+	    exit $?
             ;;
         --list-nets)
-            ./network.sh list
+            ./network list
+	    exit $?
+            ;;
+        --is-enabled-service)
+            ./systemd is-enabled
+	    exit $?
             ;;
     esac
     shift

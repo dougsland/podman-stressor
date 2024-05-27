@@ -1,0 +1,44 @@
+#!/bin/bash
+
+source /usr/share/podman-stressor/constants
+source /usr/share/podman-stressor/date
+source /usr/share/podman-stressor/system
+
+# network and volume definition to be used in remove and creation
+NETNAME="my_network"
+VOLNAME="my_volume"
+
+# just to make sure our example will work
+cleanenv() {
+    echo -e "[ ${BLUE}INFO${NC} ] Cleaning any file from previous tests..."
+    sudo podman volume rm "${VOLNAME}" --force &> /dev/null
+    sudo podman network rm "${NETNAME}" --force &> /dev/null
+}
+
+# calling the function
+cleanenv
+
+echo -e "[ ${BLUE}INFO${NC} ] Executing test: systemd TimeoutStopSec=Infinity"
+
+# executing the program in previous dir
+pushd ../../../ 1> /dev/null || exit 1
+
+    sudo CLEANUP=true \
+         VERBOSE=false \
+         NETWORK_NAME="${NETNAME}" \
+         VOLUME_NAME="${VOLNAME}" \
+         IMAGE_COMMAND="/sbin/init" \
+         IMAGE_NAME="ubi8/ubi-init" \
+         NUMBER_OF_CONTAINERS="1" \
+         SYSTEMD_TIMEOUTSTOPSEC="INFINITY" \
+         ./podman-stressor
+
+popd 1> /dev/null || exit 1
+
+echo -e "[ ${BLUE}INFO${NC} ]"
+echo -e "[ ${BLUE}INFO${NC} ] This test was executed in the following criteria:"
+echo -e "[ ${BLUE}INFO${NC} ]"
+current_date
+system_info
+# TODO" rpm version systemd e podman
+echo -e "[ ${BLUE}INFO${NC} ]"

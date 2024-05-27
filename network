@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 # shellcheck disable=SC1091
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,38 +13,53 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-source ./constants
+source /usr/share/podman-stressor/constants
 
 # Function to create a network
 create_network() {
-    local network_name=$1
-    local verbose=$2
-
-    if [[ "$verbose" -eq 1 ]]; then
-        echo -e "[ ${BLUE}INFO${NC} ] creating network ${network_name}"
+    if [ -z "${NETWORK_NAME}" ]; then
+        echo -e "[ ${RED}FAIL${NC} ] NETWORK_NAME must be defined in constant file"
+        return 1
+	#exit 255
     fi
 
-    if ! podman network create "$network_name" 1> /dev/null; then
-        echo -e "[ ${RED}FAIL${NC} ] unable to create network $network_name."
-	exit 255
+    if [[ "$VERBOSE" = "${FEATURE_ENABLED}" ]]; then
+        echo -e "[ ${BLUE}INFO${NC} ] creating network ${NETWORK_NAME}"
     fi
-    echo -e "[ ${GREEN}PASS${NC} ] network ${network_name} created."
+
+    if ! podman network create "${NETWORK_NAME}" 1> /dev/null; then
+        echo -e "[ ${RED}FAIL${NC} ] unable to create network ${NETWORK_NAME}"
+	return 1
+	#exit 255
+    fi
+    if [[ "$VERBOSE" = "${FEATURE_ENABLED}" ]]; then
+        echo -e "[ ${GREEN}PASS${NC} ] network ${NETWORK_NAME} created."
+    fi
+    return 0
+    #exit 0
 }
 
 # Function to remove a network
 remove_network() {
-    local network_name=$1
-    local verbose=$2
-
-    if [[ "$verbose" -eq 1 ]]; then
-        echo -e "[ ${BLUE}INFO${NC} ] removing network ${network_name}"
+    if [ -z "${NETWORK_NAME}" ]; then
+        echo -e "[ ${RED}FAIL${NC} ] NETWORK_NAME must be defined in constant file"
+        return 1
+	#exit 255
     fi
 
-    if ! podman network rm "$network_name" 1> /dev/null; then
-        echo -e "[ ${RED}FAIL${NC} ] unable to remove network $network_name."
-	exit 255
+    if [[ "$VERBOSE" = "${FEATURE_ENABLED}" ]]; then
+        echo -e "[ ${BLUE}INFO${NC} ] removing network ${NETWORK_NAME}"
     fi
-    echo -e "[ ${GREEN}PASS${NC} ] network ${network_name} removed."
+
+    if ! podman network rm "${NETWORK_NAME}" --force 1> /dev/null; then
+        echo -e "[ ${RED}FAIL${NC} ] unable to remove network $NETWORK_NAME."
+	return 1
+	#exit 255
+    fi
+    if [[ "$VERBOSE" = "${FEATURE_ENABLED}" ]]; then
+        echo -e "[ ${GREEN}PASS${NC} ] network ${NETWORK_NAME} removed."
+    fi
+    return 0
 }
 
 # Function to list networks
@@ -75,7 +90,7 @@ list_networks() {
 # Main function to run the script
 main() {
     if [ $# -lt 1 ]; then
-        echo "Usage: $0 <create|remove|list> [network_name]"
+        echo "Usage: $0 <create|remove|list>"
         exit 1
     fi
 
@@ -83,18 +98,10 @@ main() {
 
     case $action in
         create)
-            if [ $# -ne 3 ]; then
-                echo "Usage: $0 create <network_name>"
-                exit 1
-            fi
-            create_network "$2" "$3"
+            create_network
             ;;
         remove)
-            if [ $# -ne 3 ]; then
-                echo "Usage: $0 remove <network_name>"
-                exit 1
-            fi
-            remove_network "$2" "$3"
+            remove_network
             ;;
         list)
             list_networks
