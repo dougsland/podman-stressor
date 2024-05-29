@@ -19,6 +19,6 @@ current_date() {
     # Get the current date and time
     local current_date=$(date "+%Y-%m-%d %H:%M:%S %Z")
 
-    echo -e "[ ${BLUE}INFO${NC} ] ${current_date}"
+    echo "${current_date}"
 
 }

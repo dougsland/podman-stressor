@@ -12,21 +12,23 @@ $ sudo CLEANUP=true \
        ./podman-stressor 
 ```
 
+Output:
 ```bash
 $ ./is-TimeoutStopSec_infinity_works
 [ INFO ] Cleaning any file from previous tests...
 [ INFO ] Executing test: systemd TimeoutStopSec=Infinity
-[ PASS ] systemd TimeoutStopSec=inifiny is working as expected
 [ INFO ]
 [ INFO ] This test was executed in the following criteria:
 [ INFO ]
-[ INFO ] 2024-05-27 09:18:16 EDT
-[ INFO ] OS: Fedora Linux
-[ INFO ] VERSION: 39 (Workstation Edition)
+[ INFO ] Date: 2024-05-29 14:50:43 EDT
+[ INFO ] System information:
+[ INFO ] 	 - Fedora Linux 39 (Workstation Edition)
 [ INFO ]
+[ INFO ] RPM(s):
+[ INFO ] 	 - systemd-254.9-1.fc39.x86_64
+[ INFO ]
+[ PASS ] systemd TimeoutStopSec=inifiny is working as expected
 ```
-
-
 
 ```
 $ sudo CLEANUP=false \
@@ -45,11 +47,15 @@ Output:
 $ ./is-service-disabled
 [ INFO ] Cleaning any file from previous tests...
 [ INFO ] Executing test: service must be disabled in the distro: [podman]
+[ INFO ]
 [ INFO ] This test was executed in the following criteria:
 [ INFO ]
-[ INFO ] 2024-05-26 11:15:53 EDT
-[ INFO ] OS: Fedora Linux
-[ INFO ] VERSION: 39 (Workstation Edition)
+[ INFO ] Date: 2024-05-29 14:49:14 EDT
+[ INFO ] System information:
+[ INFO ] 	 - Fedora Linux 39 (Workstation Edition)
+[ INFO ]
+[ INFO ] RPM(s):
+[ INFO ] 	 - systemd-254.9-1.fc39.x86_64
 [ INFO ]
 [ PASS ] service podman is DISABLED
 ```
@@ -65,19 +71,21 @@ $ ./is-service-disabled
          SERVICE_MUST_BE_ENABLED="bluechi-controller,bluechi-agent" \
          ./podman-stressor
 ```
+
 Output:
 ```bash
 $ ./is-service-enabled
 [ INFO ] Cleaning any file from previous tests...
-[ INFO ] Executing test: service must be enabled in the distro:
-[ INFO ]
-[ INFO ] - bluechi-controller
-[ INFO ] - bluechi-agent
+[ INFO ] Executing test: service must be disabled in the distro: [podman]
 [ INFO ]
 [ INFO ] This test was executed in the following criteria:
-[ INFO ] 2024-05-26 11:11:12 EDT
-[ INFO ] OS: Fedora Linux
-[ INFO ] VERSION: 39 (Workstation Edition)
+[ INFO ]
+[ INFO ] Date: 2024-05-29 14:49:59 EDT
+[ INFO ] System information:
+[ INFO ] 	 - Fedora Linux 39 (Workstation Edition)
+[ INFO ]
+[ INFO ] RPM(s):
+[ INFO ] 	 - systemd-254.9-1.fc39.x86_64
 [ INFO ]
 [ FAIL ] service bluechi-controller is disabled
 [ FAIL ] service bluechi-agent is disabled

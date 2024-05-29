@@ -51,6 +51,7 @@ WantedBy=multi-user.target' > $UNIT_FILE_PATH"
 
     # Check if the service is running
     if ! podman exec ${container_name} systemctl is-active --quiet ${SERVICE_NAME}; then
+        echo -e "[ ${RED}FAIL${NC} ]"
         echo -e "[ ${RED}FAIL${NC} ] cannot validate the systemd TimeoutStopSec=inifinity"
         return 1
     else
@@ -77,6 +78,7 @@ services_must_be_disabled() {
 
         # Execute the command inside the container
         if sudo podman exec "${container_name}" ${disabled_now_cmd} 2> /dev/null; then
+	    echo -e "[ ${RED}FAIL${NC} ]"
             echo -e "[ ${RED}FAIL${NC} ] service ${service} is enabled"
         else
 	    echo -e "[ ${BLUE}INFO${NC} ]"
@@ -115,6 +117,7 @@ enable_and_start_now_service() {
         enable_now_cmd="sudo systemctl enable --now ${service_name}"
         if ! sudo podman exec "${container_name}" ${enable_now_cmd}; then
             if [[ "$VERBOSE" = "${FEATURE_ENABLED}" ]]; then
+	        echo -e "[ ${RED}FAIL${NC} ]"
                 echo -e "[ ${RED}FAIL${NC} ] container ${container_name} fail to enable and start service ${service_name}"
 	    fi
             return 1

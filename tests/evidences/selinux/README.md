@@ -17,11 +17,16 @@ Output:
 $ ./is-selinux-status-disabled
 [ INFO ] Cleaning any file from previous tests...
 [ INFO ] Executing test: SELinux must be [DISABLED]
+[ INFO ]
 [ INFO ] This test was executed in the following criteria:
 [ INFO ]
-[ INFO ] 2024-05-26 11:28:59 EDT
-[ INFO ] OS: Fedora Linux
-[ INFO ] VERSION: 39 (Workstation Edition)
+[ INFO ] Date: 2024-05-29 14:55:17 EDT
+[ INFO ] System information:
+[ INFO ] 	 - Fedora Linux 39 (Workstation Edition)
+[ INFO ]
+[ INFO ] RPM(s):
+[ INFO ] 	 - selinux-policy-39.4-1.fc39.noarch
+[ INFO ] 	 - libselinux-3.5-5.fc39.x86_64
 [ INFO ]
 [ PASS ] SELinux status is DISABLED
 ```
@@ -42,11 +47,16 @@ Output:
 $ ./is-selinux-status-enforcing
 [ INFO ] Cleaning any file from previous tests...
 [ INFO ] Executing test: SELinux must be [ENFORCING]
+[ INFO ]
 [ INFO ] This test was executed in the following criteria:
 [ INFO ]
-[ INFO ] 2024-05-26 11:29:32 EDT
-[ INFO ] OS: Fedora Linux
-[ INFO ] VERSION: 39 (Workstation Edition)
+[ INFO ] Date: 2024-05-29 14:56:38 EDT
+[ INFO ] System information:
+[ INFO ] 	 - Fedora Linux 39 (Workstation Edition)
+[ INFO ]
+[ INFO ] RPM(s):
+[ INFO ] 	 - selinux-policy-39.4-1.fc39.noarch
+[ INFO ] 	 - libselinux-3.5-5.fc39.x86_64
 [ INFO ]
 [ FAIL ] SELinux is NOT in ENFORCING mode in container test_container_1.
 [ FAIL ] The current status is: DISABLED

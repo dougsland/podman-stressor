@@ -16,9 +16,9 @@
 
 source /usr/share/podman-stressor/constants
 
-system_info() {
-    # Source the /etc/os-release file to get system information
-    source /etc/os-release
+rpm_package_version() {
+    package=$1
 
-    echo "${NAME} ${VERSION}"
+    rpm_version=$(rpm -q "${package}")
+    echo "${rpm_version}"
 }

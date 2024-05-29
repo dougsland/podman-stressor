@@ -16,6 +16,7 @@ SCRIPTS = cgroup \
 	systemd \
 	system \
 	date \
+	rpm \
 	selinux \
 	constants
 

@@ -66,6 +66,7 @@ are memory, CPU or others interferences in the system.
 %{_datadir}/podman-stressor/systemd
 %{_datadir}/podman-stressor/system
 %{_datadir}/podman-stressor/date
+%{_datadir}/podman-stressor/rpm
 %{_datadir}/podman-stressor/selinux
 
 %changelog

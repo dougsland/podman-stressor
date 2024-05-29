@@ -2,6 +2,7 @@
 
 source /usr/share/podman-stressor/constants
 source /usr/share/podman-stressor/date
+source /usr/share/podman-stressor/rpm
 source /usr/share/podman-stressor/system
 
 # network and volume definition to be used in remove and creation
@@ -18,27 +19,32 @@ cleanenv() {
 # calling the function
 cleanenv
 
-echo -e "[ ${BLUE}INFO${NC} ] Executing test: systemd TimeoutStopSec=Infinity"
-
 # executing the program in previous dir
 pushd ../../../ 1> /dev/null || exit 1
 
-    sudo CLEANUP=true \
-         VERBOSE=false \
-         NETWORK_NAME="${NETNAME}" \
-         VOLUME_NAME="${VOLNAME}" \
-         IMAGE_COMMAND="/sbin/init" \
-         IMAGE_NAME="ubi8/ubi-init" \
-         NUMBER_OF_CONTAINERS="1" \
-         SYSTEMD_TIMEOUTSTOPSEC="INFINITY" \
-         ./podman-stressor
-
-popd 1> /dev/null || exit 1
+echo -e "[ ${BLUE}INFO${NC} ] Executing test: systemd TimeoutStopSec=Infinity"
 
 echo -e "[ ${BLUE}INFO${NC} ]"
 echo -e "[ ${BLUE}INFO${NC} ] This test was executed in the following criteria:"
 echo -e "[ ${BLUE}INFO${NC} ]"
-current_date
-system_info
-# TODO" rpm version systemd e podman
+echo -e "[ ${BLUE}INFO${NC} ] Date:" $(current_date)
+echo -e "[ ${BLUE}INFO${NC} ] System information:"
+echo -e "[ ${BLUE}INFO${NC} ] \t - $(system_info)"
 echo -e "[ ${BLUE}INFO${NC} ]"
+echo -e "[ ${BLUE}INFO${NC} ] RPM(s):"
+echo -e "[ ${BLUE}INFO${NC} ] \t - $(rpm_package_version "systemd")"
+echo -e "[ ${BLUE}INFO${NC} ]"
+    
+    sudo CLEANUP=false \
+         VERBOSE=false \
+         NETWORK_NAME="${NETNAME}" \
+         VOLUME_NAME="${VOLNAME}" \
+	 IMAGE_COMMAND="/sbin/init" \
+         IMAGE_NAME="quay.io/centos-sig-automotive/automotive-osbuild" \
+         NUMBER_OF_CONTAINERS="1" \
+	 SYSTEMD_TIMEOUTSTOPSEC="INFINITY" \
+         ./podman-stressor
+
+popd 1> /dev/null || exit 1
+
+

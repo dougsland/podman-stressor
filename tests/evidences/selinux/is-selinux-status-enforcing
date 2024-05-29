@@ -2,6 +2,7 @@
 
 source /usr/share/podman-stressor/system
 source /usr/share/podman-stressor/date
+source /usr/share/podman-stressor/rpm
 source /usr/share/podman-stressor/constants
 
 # network and volume definition to be used in remove and creation
@@ -20,15 +21,21 @@ cleanenv() {
 cleanenv
 
 # executing the program in previous dir
+pushd ../../../ 1> /dev/null || exit 1
+
 echo -e "[ ${BLUE}INFO${NC} ] Executing test: SELinux must be [$SELINUX_STATUS]"
 
+echo -e "[ ${BLUE}INFO${NC} ]"
 echo -e "[ ${BLUE}INFO${NC} ] This test was executed in the following criteria:"
 echo -e "[ ${BLUE}INFO${NC} ]"
-current_date
-system_info
+echo -e "[ ${BLUE}INFO${NC} ] Date:" $(current_date)
+echo -e "[ ${BLUE}INFO${NC} ] System information:"
+echo -e "[ ${BLUE}INFO${NC} ] \t - $(system_info)"
 echo -e "[ ${BLUE}INFO${NC} ]"
-
-pushd ../../../ 1> /dev/null || exit 1
+echo -e "[ ${BLUE}INFO${NC} ] RPM(s):"
+echo -e "[ ${BLUE}INFO${NC} ] \t - $(rpm_package_version "selinux-policy")"
+echo -e "[ ${BLUE}INFO${NC} ] \t - $(rpm_package_version "libselinux")"
+echo -e "[ ${BLUE}INFO${NC} ]"
 
     sudo CLEANUP=false \
          VERBOSE=false \
