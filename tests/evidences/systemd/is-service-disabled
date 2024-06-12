@@ -1,9 +1,9 @@
 #!/bin/bash
-
-source /usr/share/podman-stressor/constants
-source /usr/share/podman-stressor/date
-source /usr/share/podman-stressor/rpm
-source /usr/share/podman-stressor/system
+CONFIG_DIR="$HOME/.config/podman-stressor"
+source "$CONFIG_DIR/constants"
+source "$SHARE_DIR/system"
+source "$SHARE_DIR/rpm"
+source "$SHARE_DIR/date"
 
 # network and volume definition to be used in remove and creation
 NETNAME="my_network"

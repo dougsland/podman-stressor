@@ -13,7 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-source /usr/share/podman-stressor/constants
+CONFIG_DIR="$HOME/.config/podman-stressor"
+source "$CONFIG_DIR/constants"
+source "$SHARE_DIR/cgroup"
 
 echo -e "======================"
 echo -e "podman-stressor demo"
@@ -29,8 +31,6 @@ echo -e "\n[ ${BLUE}INFO${NC} ] listing podman volume(s)..."
 sudo podman volume ls
 
 pushd .. 1> /dev/null || exit 1
-    source /usr/share/podman-stressor/constants
-    source /usr/share/podman-stressor/cgroup
     echo
 
     echo -e "[ ${BLUE}INFO${NC} ] listing resource from cgroup ${CGROUP_NAME}..."

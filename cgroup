@@ -13,8 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-source /usr/share/podman-stressor/constants
-source /usr/share/podman-stressor/memory
+CONFIG_DIR="$HOME/.config/podman-stressor"
+source "$CONFIG_DIR/constants"
+source "$SHARE_DIR/memory"
 
 # Function to create and configure a cgroup with total memory limit
 cgroup_create_env() {

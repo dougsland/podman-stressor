@@ -13,14 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-source /usr/share/podman-stressor/constants
-source /usr/share/podman-stressor/cgroup
+CONFIG_DIR="$HOME/.config/podman-stressor"
+source "$CONFIG_DIR/constants"
+source "$SHARE_DIR/cgroup"
 
 # Read the format from /usr/share/podman-stressor/constant
 # and provide the OPTION_NAME and DESCRIPTION for easy reading
 # or documentation
 show_options_from_constant_file() {
-    local input_file="/usr/share/podman-stressor/constants"
+    local input_file="$HOME/.config/podman-stressor"
 
     # Check if input file exists
     if [[ ! -f "$input_file" ]]; then

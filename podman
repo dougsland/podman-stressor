@@ -13,11 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-source /usr/share/podman-stressor/constants
-source /usr/share/podman-stressor/cgroup
-source /usr/share/podman-stressor/stress
-source /usr/share/podman-stressor/systemd
-source /usr/share/podman-stressor/selinux
+CONFIG_DIR="$HOME/.config/podman-stressor"
+source "$CONFIG_DIR/constants"
+source "$SHARE_DIR/cgroup"
+source "$SHARE_DIR/stress"
+source "$SHARE_DIR/systemd"
+source "$SHARE_DIR/selinux"
 
 # Install extra packages in the container
 # Argument: container name

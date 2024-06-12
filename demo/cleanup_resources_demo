@@ -13,7 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-source /usr/share/podman-stressor/constants
+CONFIG_DIR="$HOME/.config/podman-stressor"
+source "$CONFIG_DIR/constants"
 
 echo -e "======================"
 echo -e "podman-stressor demo"
