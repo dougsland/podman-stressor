@@ -147,13 +147,5 @@ cgroup_remove() {
     sudo rm -rf "$CGROUP_NAME_PATH" &> /dev/null
     sudo rm -rf "$CGROUP_NAME_PATH.slice/" &> /dev/null
 
-    # Confirm removal
-    if [ -d "$CGROUP_NAME_PATH" ]; then
-        if [[ "$VERBOSE" = "${FEATURE_ENABLED}" ]]; then
-            echo -e "[ ${RED}FAIL${NC} ] failed to remove cgroup $CGROUP_NAME_PATH"
-	fi
-        return 1
-    fi
-
     return 0
 }

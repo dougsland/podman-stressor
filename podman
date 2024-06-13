@@ -157,11 +157,6 @@ wait_and_check_status() {
 
     if [[ $wait_fail -ne 0 ]]; then
         exit 255
-    else
-        if [[ "$VERBOSE" = "${FEATURE_ENABLED}" ]]; then
-            echo -e "[ ${GREEN}PASS${NC} ] All containers requested are running successfully."
-	fi
-
     fi
 }
 
