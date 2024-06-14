@@ -15,6 +15,7 @@
 #
 CONFIG_DIR="$HOME/.config/podman-stressor"
 source "$CONFIG_DIR/constants"
+source "$SHARE_DIR/common"
 
 is_systemd_TimeoutStopSec_infinity_works() {
     local container_name="$1"

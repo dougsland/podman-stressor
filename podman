@@ -16,6 +16,7 @@
 CONFIG_DIR="$HOME/.config/podman-stressor"
 source "$CONFIG_DIR/constants"
 source "$SHARE_DIR/cgroup"
+source "$SHARE_DIR/common"
 source "$SHARE_DIR/stress"
 source "$SHARE_DIR/systemd"
 source "$SHARE_DIR/selinux"
@@ -202,9 +203,13 @@ main() {
 	    # If users requested to stress the containers, it's time to stress
 	    # all containers via stress-ng
 	    if [ "$STRESS_NG_SET_TO_RUN" = true ]; then
-		msg+=" and stressing it"
+                msg+=" and stressing it"
                 run_stress_cmd
-	    fi
+                if [ $? -ne 0 ]; then
+                    echo "Failed to run stress-ng. Exiting."
+                    exit 1
+                fi
+            fi
 
             local end_time=$(date +%s)
             local elapsed_time=$((end_time - start_time))

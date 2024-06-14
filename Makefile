@@ -1,5 +1,5 @@
 # Define the directories for installation
-PREFIX ?= /usr/local
+PREFIX ?= /usr
 BINDIR = $(PREFIX)/bin/
 SHAREDIR = $(PREFIX)/share/podman-stressor
 SHAREDIR_DOC = $(PREFIX)/share/doc/podman-stressor
@@ -7,18 +7,19 @@ CONFIGDIR = $(HOME)/.config/podman-stressor
 
 # Define the list of scripts and files
 SCRIPTS = cgroup \
-           memory \
-           podman \
-           network \
-           podman-operations \
-           processes \
-           volume \
-           stress \
-           systemd \
-           system \
-           date \
-           rpm \
-           selinux
+	memory \
+	podman \
+	network \
+	podman-operations \
+	processes \
+	volume \
+	stress \
+	systemd \
+	system \
+	date \
+	rpm \
+	common \
+	selinux
 
 BIN_FILE = podman-stressor
 

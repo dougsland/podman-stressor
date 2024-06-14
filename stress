@@ -15,6 +15,7 @@
 #
 CONFIG_DIR="$HOME/.config/podman-stressor"
 source "$CONFIG_DIR/constants"
+source "$SHARE_DIR/common"
 
 # If user set any env variable to run stress-ng
 is_stress_ng_set_to_run() {
@@ -66,22 +67,20 @@ run_stress_cmd() {
     container_names=$(podman ps --format "{{.Names}}" | grep "^${BASE_NAME_FOR_CONTAINERS}")
 
     # Execute the command in each container in parallel
-    for container_name in ${container_names}; do 
+    for container_name in ${container_names}; do
       {
          stress_ng_command=$(build_stress_ng_cmd)
 
          # Execute the command using eval
-	 if ! sudo podman exec "${container_name}" ${stress_ng_command}; then
+         if ! sudo podman exec "${container_name}" ${stress_ng_command}; then
             if [[ "$VERBOSE" = "${FEATURE_ENABLED}" ]]; then
-                echo -e "[ ${RED}FAIL${NC} ] to run stress-ng in container ${container_name}"
-                return 1
+                echo -e "[ ${RED}FAIL${NC} ] Failed to run stress-ng in container ${container_name}"
             fi
+            exit 1  # Exit the subshell with an error
         fi
       } &
     done
 
     # Wait for all parallel processes to complete
     wait
-
-    return 0
 }

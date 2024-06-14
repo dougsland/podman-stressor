@@ -15,6 +15,7 @@
 #
 CONFIG_DIR="$HOME/.config/podman-stressor"
 source "$CONFIG_DIR/constants"
+source "$SHARE_DIR/common"
 
 # Function to list volumes
 list_processes() {

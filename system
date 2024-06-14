@@ -15,6 +15,7 @@
 #
 CONFIG_DIR="$HOME/.config/podman-stressor"
 source "$CONFIG_DIR/constants"
+source "$SHARE_DIR/common"
 
 system_info() {
     # Source the /etc/os-release file to get system information

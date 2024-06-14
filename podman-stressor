@@ -16,6 +16,7 @@
 CONFIG_DIR="$HOME/.config/podman-stressor"
 source "$CONFIG_DIR/constants"
 source "$SHARE_DIR/cgroup"
+source "$SHARE_DIR/common"
 
 # Read the format from /usr/share/podman-stressor/constant
 # and provide the OPTION_NAME and DESCRIPTION for easy reading

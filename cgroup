@@ -16,6 +16,7 @@
 CONFIG_DIR="$HOME/.config/podman-stressor"
 source "$CONFIG_DIR/constants"
 source "$SHARE_DIR/memory"
+source "$SHARE_DIR/common"
 
 # Function to create and configure a cgroup with total memory limit
 cgroup_create_env() {
