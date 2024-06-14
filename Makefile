@@ -1,5 +1,5 @@
 # Define the directories for installation
-PREFIX ?= /usr
+PREFIX ?= /usr/
 BINDIR = $(PREFIX)/bin/
 SHAREDIR = $(PREFIX)/share/podman-stressor
 SHAREDIR_DOC = $(PREFIX)/share/doc/podman-stressor
